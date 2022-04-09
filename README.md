@@ -7,13 +7,21 @@
 Controls are following:
 
 Player 1:
+
 [A] - Move left
+
 [D] - Move right
+
 [W] - Jump
+
 [Spacebar] - Attack
 
 Player 2:
+
 [←] - Move left
+
 [→] - Move right
+
 [↑] - Jump
+
 [↓] - Attack
