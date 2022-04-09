@@ -6,7 +6,7 @@
 
 Controls are following:
 
-Player 1:
+<h3><strong>Player 1:</strong></h3>
 
 [A] - Move left
 
@@ -16,7 +16,7 @@ Player 1:
 
 [Spacebar] - Attack
 
-Player 2:
+<h3>Player 2:</h3>
 
 [←] - Move left
 
