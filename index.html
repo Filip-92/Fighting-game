@@ -1,107 +1,183 @@
 <head>
+    <link rel="icon" href="./Assets/swords.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Wrath of the Samurai</title>
     <style>
         * {
             box-sizing: border-box;
             font-family: 'Press Start 2P', cursive;
         }
+        body {
+            background-color: gray;
+            margin: auto !important;
+            text-align: center;
+        }
+        #screen {
+            margin: auto !important;
+            display: block !important;
+        }
+        canvas {
+            border: 4px solid blueviolet;
+        }
+        button:target {
+            border: 2px solid red;
+        }
+        @media only screen and (max-width: 760px) {
+            .invisibleMessage {
+            display: flex !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- red container div -->
-    <div style="position: relative; display: inline-block;">
-        <!-- smaller red container div -->
+    <div style="font-size: 22px; margin-top: 50px; margin-bottom: 50px;">
+        <div style="display:inline-block; vertical-align:top;">
+            <img src="./Assets/swords.png" height="20px" alt="" style="margin-right: 20px; text-align: center;">
+        </div>
+        <div style="margin-right: 20px; display:inline-block; vertical-align:top;">Wrath of the Samurai</div>
+        <div style="display:inline-block; vertical-align:top;">
+            <img src="./Assets/swords.png" height="20px" alt="">
+        </div>
+    </div>
+
+
+<div style="float: left; margin-left: 50px; width: 300px; height: 600px; border: 2px solid white; text-align: center;">
+    <div style="margin-top: 20px; line-height: 2;">
+        <p>Player 1</p>
+        <p>Controls</p> 
+        <br>
+        <p>[A] - Move left</p>
+        <p>[D] - Move right</p>
+        <p>[W] - Jump</p>
+        <p>[Spacebar] - Attack</p>
+    </div>
+</div> 
+<div style="float: right; margin-right: 50px; width: 300px; height: 600px; border: 2px solid white; text-align: center;">
+    <div style="margin-top: 20px; line-height: 2;">
+        <p>Player 2</p>
+        <p>Controls</p> 
+        <br>
+        <p>[←] - Move left</p>
+        <p>[→] - Move right</p>
+        <p>[↑] - Jump</p>
+        <p>[↓] - Attack</p>
+    </div>
+</div>
+ <!-- red container div -->
+ <div id="screen" style="position: relative; display: inline-block; width: 1024px;">
+    <!-- smaller red container div -->
+    <div 
+        style="
+            position: absolute; 
+            display: flex; 
+            width: 100%; 
+            align-items: center;
+            padding: 20px;
+            "
+        >
+        <!-- player health -->
         <div 
             style="
-                position: absolute; 
-                display: flex; 
-                width: 100%; 
-                align-items: center;
-                padding: 20px;
-                "
-            >
-            <!-- player health -->
-            <div 
-                style="
-                    position: relative; 
-                    width: 100%; 
-                    display: flex; 
-                    justify-content: flex-end;
-                    border-top: 4px solid white;
-                    border-left: 4px solid white;
-                    border-bottom: 4px solid white;
-                    "
-            >
-                <div style="background-color: red; height: 30px; width: 100%;"></div>
-                <div 
-                    id="playerHealth" 
-                    style="
-                        position: absolute; 
-                        background: #818CF8; 
-                        top: 0; 
-                        right: 0; 
-                        bottom: 0; 
-                        width: 100%;
-                        "
-                ></div>
-            </div>
-
-            <!-- timer-->
-            <div 
-                id="timer"
-                style="
-                    background-color: black; 
-                    width: 80px; 
-                    height: 50px; 
-                    flex-shrink: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    border: 4px solid white;
-                "
-            >10</div>
-
-            <!-- enemy health-->
-            <div style="
                 position: relative; 
-                width: 100%;
+                width: 100%; 
+                display: flex; 
+                justify-content: flex-end;
                 border-top: 4px solid white;
-                border-right: 4px solid white;
+                border-left: 4px solid white;
                 border-bottom: 4px solid white;
                 "
-            >
-                <div style="background-color: red; height: 30px;"></div>
-                <div 
-                    id="enemyHealth" 
-                    style="
-                        position: absolute; 
-                        background: #818CF8; 
-                        top: 0; 
-                        right: 0; 
-                        bottom: 0; 
-                        left: 0;"
-                ></div>
-            </div>
-            <div></div>
+        >
+            <div style="background-color: red; height: 30px; width: 100%;"></div>
+            <div 
+                id="playerHealth" 
+                style="
+                    position: absolute; 
+                    background: #818CF8; 
+                    top: 0; 
+                    right: 0; 
+                    bottom: 0; 
+                    width: 100%;
+                    "
+            ></div>
         </div>
-        <div
-            id="displayText" 
+
+        <!-- timer-->
+        <div 
+            id="timer"
             style="
-            position: absolute; 
-            color: white; 
-            align-items: center;
-            justify-content: center;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            display: none;
+                background-color: black; 
+                width: 80px; 
+                height: 50px; 
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                border: 4px solid white;
             "
-        >Tie</div>
+        >10</div>
+
+        <!-- enemy health-->
+        <div style="
+            position: relative; 
+            width: 100%;
+            border-top: 4px solid white;
+            border-right: 4px solid white;
+            border-bottom: 4px solid white;
+            "
+        >
+            <div style="background-color: red; height: 30px;"></div>
+            <div 
+                id="enemyHealth" 
+                style="
+                    position: absolute; 
+                    background: #818CF8; 
+                    top: 0; 
+                    right: 0; 
+                    bottom: 0; 
+                    left: 0;"
+            ></div>
+        </div>
+        <div></div>
+    </div>
+        <div
+        id="displayText" 
+        style="
+        position: absolute; 
+        color: white; 
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: none;
+        text-align: center;
+        "
+    >Tie
+    </div>
+    <div class="invisibleMessage" 
+        style="
+        background-color: black; 
+        display: flex; 
+        position: absolute; 
+        color: white; 
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+        display: none;
+        "
+    >Please open on PC, does not work for mobile devices</div>
         <canvas></canvas>
+        <div style="margin-top: 50px; position: absolute;  align-items: center; justify-content: center;">
+            <button id="mute" onclick="enableMute()" type="button">Mute sounds</button>
+        </div> 
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.2/gsap.min.js" 

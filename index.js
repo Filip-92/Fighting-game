@@ -8,6 +8,25 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 
 const gravity = 0.7
 
+var audio = new Audio('./Assets/Samurai Jack Theme Song [Extended].mp3');
+var slash1 = new Audio('./Assets/katana1.mp3');
+var slash2 = new Audio('./Assets/katana2.mp3');
+var deathSound = new Audio('./Assets/death.wav');
+
+function enableMute() { 
+  audio.muted = !audio.muted;
+  slash1.muted = !slash1.muted;
+  slash2.muted = !slash2.muted;
+  deathSound.muted = !deathSound.muted;
+  if (audio.muted) {
+    document.querySelector('#mute').style.border = '2px solid red'
+    document.querySelector('#mute').innerHTML = 'Unmute sounds'
+  } else {
+    document.querySelector('#mute').style.border = 'none'
+    document.querySelector('#mute').innerHTML = 'Mute sounds'
+  }
+}
+
 const background = new Sprite({
     position: {
         x: 0,
@@ -27,9 +46,11 @@ const shop = new Sprite({
     framesCurrent: 1
 })
 
+enableMute()
+
 const player = new Fighter({
     position: {
-        x: 0,
+        x: 100,
         y: 0
     },
     velocity: {
@@ -90,7 +111,7 @@ const player = new Fighter({
 
 const enemy = new Fighter({
     position: {
-        x: 400,
+        x: 800,
         y: 0
     },
     velocity: {
@@ -149,8 +170,6 @@ const enemy = new Fighter({
     }
 })
 
-console.log(player)
-
 const keys = {
     a: {
         pressed: false
@@ -165,6 +184,12 @@ const keys = {
         pressed: false
     },
     ArrowLeft: {
+        pressed: false
+    },
+    y: {
+        pressed: false
+    },
+    n: {
         pressed: false
     }
 }
@@ -184,14 +209,24 @@ function animate() {
     player.update()
     enemy.update()
 
+    audio.volume = 0.2
+    audio.play()
+
     player.velocity.x = 0
     enemy.velocity.x = 0
 
+    // do you wish to continue?
+    if (keys.y.pressed) {
+        window.location.reload(true);
+    } else if (keys.n.pressed) {
+        window.location.href = 'https://wordpress.filippeszke.pl';
+    }
+
     // player movement
-    if (keys.a.pressed && player.lastKey === 'a') {
+    if (keys.a.pressed && player.lastKey === 'a' && player.position.x >= 0) {
         player.velocity.x = -5
         player.switchSprite('run')
-    } else if (keys.d.pressed && player.lastKey === 'd') {
+    } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x <= 1024) {
         player.velocity.x = 5
         player.switchSprite('run')
     } else {
@@ -206,10 +241,10 @@ function animate() {
     }
 
     // enemy movement
-    if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+    if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft' && enemy.position.x >= 0) {
         enemy.velocity.x = -5
         enemy.switchSprite('run')
-    } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+    } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && enemy.position.x <= 1000) {
         enemy.velocity.x = 5
         enemy.switchSprite('run')
     } else {
@@ -269,8 +304,18 @@ function animate() {
 
     // end game based on health
     if (enemy.health <= 0 || player.health <= 0) {
+        deathSound.play()
+        setTimeout(function(){
+            deathSound.pause();
+            deathSound.currentTime = 0;
+        }, 1000);
+
         determineWinner({ player, enemy, timerId })
     }
+}
+
+function mute() {
+    audio.play()
 }
 
 animate()
@@ -284,13 +329,16 @@ window.addEventListener('keydown', (event) => {
                 break
             case 'a':
                 keys.a.pressed = true
-                player.lastKey = 'a'
+                player.lastKey = 'a'    
                 break
             case 'w':
-                player.velocity.y = -20
+                if (player.position.y > 20) {
+                    player.velocity.y = -20
+                }
                 break
             case ' ':
                 player.attack()
+                slash1.play();
                 break
         }
     }
@@ -306,10 +354,24 @@ window.addEventListener('keydown', (event) => {
                 enemy.lastKey = 'ArrowLeft'
                 break
             case 'ArrowUp':
-                enemy.velocity.y = -20
+                if (enemy.position.y > 20) {
+                    enemy.velocity.y = -20
+                }
                 break
             case 'ArrowDown':
                 enemy.attack()
+                slash2.play();
+                break
+        }
+    }
+
+    if (player.dead || enemy.dead || timer <= 0) {
+        switch(event.key) {
+            case 'y':
+                keys.y.pressed = true
+                break
+            case 'n':
+                keys.n.pressed = true
                 break
         }
     }
@@ -337,9 +399,9 @@ window.addEventListener('keyup', (event) => {
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = false
             break
-        case 'w':
+        case 'ArrowUp':
             keys.w.pressed = true
-            lastKey = 'w'
+            lastKey = 'ArrowUp'
             break
     }
     console.log(event.key)

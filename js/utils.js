@@ -14,12 +14,13 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 function determineWinner({ player, enemy, timerId }) {
     clearTimeout(timerId)
     document.querySelector('#displayText').style.display = 'flex'
+    var yesOrNo = 'Do you wish to continue? <br><br> Y / N'
     if (player.health === enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Tie'
+        document.querySelector('#displayText').innerHTML = 'Tie <br><br>' + yesOrNo
     } else if (player.health > enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
+        document.querySelector('#displayText').innerHTML = 'Player 1 Wins <br><br>' + yesOrNo
     } else if (enemy.health > player.health) {
-        document.querySelector('#displayText').innerHTML = 'Player 2 Wins'
+        document.querySelector('#displayText').innerHTML = 'Player 2 Wins <br><br>' + yesOrNo
     }
 }
 
